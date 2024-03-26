@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import {Link,useNavigate} from 'react-router-dom'
 
-
-
 const SignUp = () => {
   const [formData,setFormData] = useState({});
   const [error,setError]= useState(null);
@@ -44,7 +42,6 @@ const SignUp = () => {
       setLoading(false);
       setError(error.message);
     }
-   
   }
 
   return (
