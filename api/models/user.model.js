@@ -15,6 +15,10 @@ const userSChema = new mongoose.Schema({
     type: String,
     required:true
     
+  },
+  avatar:{
+    type:String,
+    default:"https://freeiconshop.com/wp-content/uploads/edd/person-flat.png",
   }
 },{timestamps:true});
 
