@@ -30,6 +30,9 @@ const Profile = () => {
   const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({});
   const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [showListingsError,setShowListingsError] =useState(false);
+  const [userListings,setUserListings] = useState([]);
+
 
   const dispatch = useDispatch();
 
@@ -132,6 +135,21 @@ const Profile = () => {
     }
   };
 
+  const handleShowListings=async()=>{
+    try {
+      setShowListingsError(false);
+      const res = await fetch(`/api/user/listings/${currentUser._id}`)
+      const data = await res.json();
+
+      if(data.success===false){
+        setShowListingsError(true)
+      }
+      setUserListings(data);
+    } catch (error) {
+      showListingsError(true);
+    }
+  }
+
   useEffect(() => {
     if (file) {
       handleFileUpload(file);
@@ -223,6 +241,32 @@ const Profile = () => {
       <p className="text-green-700">
         {updateSuccess ? "User is updated successfully" : ""}
       </p>
+      <button className="text-green-700 text-center w-full" onClick={handleShowListings}>
+        Show Listings
+      </button>
+      {<p className="text-red-700">{showListingsError? 'Error show listings':""}</p>}
+
+      {
+       userListings && userListings.length>0 && 
+       <div className="flex flex-col gap-4">
+        <h1 className="font-semibold text-center mt-7 text-2xl ">Your Listings</h1>
+        {userListings.map((listing)=>(
+        <div key={listing._id} className="border rounded-lg p-3 flex justify-between items-center gap-4 ">
+          <Link to={`/listing/${listing._id}`}>
+          <img src={listing.imageUrls[0]} alt="alternate listing" className="h-16 w-16 object-contain rounded-lg" />
+          </Link>
+          <Link className="flex-1 font-semibold text-slate-700  hover:underline truncate" to={`/listing/${listing._id}`}>
+            <p >{listing.name}</p>
+          </Link>
+          
+          <div className="flex flex-col items-center">
+            <button className="text-green-800 uppercase">Edit</button>
+            <button className="text-red-700 uppercase">Delete</button>
+            </div>
+          </div>
+       ))}
+        </div> 
+      }
     </div>
   );
 };
