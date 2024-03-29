@@ -150,6 +150,24 @@ const Profile = () => {
     }
   }
 
+  const handleListingDelete =async(listingid)=>{
+    try {
+      const res= await fetch(`/api/listing/delete/${listingid}`,{
+        method:'DELETE',
+
+      });
+      const data = res.json();
+      if(data.success===false){
+        console.log(data.message)
+        return
+      }
+
+      setUserListings((previousListings) => previousListings.filter((listing)=>listing._id!==listingid));
+    } catch (error) {
+     console.log(error)
+    }
+  }
+
   useEffect(() => {
     if (file) {
       handleFileUpload(file);
@@ -261,7 +279,7 @@ const Profile = () => {
           
           <div className="flex flex-col items-center">
             <button className="text-green-800 uppercase">Edit</button>
-            <button className="text-red-700 uppercase">Delete</button>
+            <button  onClick={()=>handleListingDelete(listing._id)} className="text-red-700 uppercase">Delete</button>
             </div>
           </div>
        ))}
