@@ -14,6 +14,7 @@ import {
   FaShare,
 } from "react-icons/fa";
 import "swiper/css/bundle";
+import Contact from "../components/Contact";
 
 const Listing = () => {
   SwiperCore.use([Navigation]);
@@ -22,8 +23,9 @@ const Listing = () => {
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState(false);
+  const [contact ,setContact] =useState(false);
   const params = useParams();
-
+  const { currentUser } = useSelector((state) => state.user);
   useEffect(() => {
     const fetchListing = async () => {
       try {
@@ -125,17 +127,19 @@ const Listing = () => {
               </li>
               <li className="flex items-center gap-1 whitespace-nowrap ">
                 <FaParking className="text-lg" />
-                {listing.parking 
-                  ? `Parking`
-                  : `No Parking`}
+                {listing.parking ? `Parking` : `No Parking`}
               </li>
               <li className="flex items-center gap-1 whitespace-nowrap ">
                 <FaChair className="text-lg" />
-                {listing.furished 
-                  ? `Furnished`
-                  : `Un Furnished`}
+                {listing.furished ? `Furnished` : `UnFurnished`}
               </li>
             </ul>
+            {currentUser && listing.userRef === currentUser._id &&!contact&& (
+              <button onClick={()=>setContact(true)} className="bg-slate-700 uppercase max-w-2xl text-white rounded-lg hover:opacity-90 disabled:opacity-80 p-3 ">
+                Contact Landlord
+              </button>
+            )}
+            {contact && <Contact listing={listing} />}
           </div>
         </div>
       )}
