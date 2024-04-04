@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import ListingCard from "../components/ListingCard";
 
 const Search = () => {
   const [sidebardata, setSidebardata] = useState({
@@ -55,7 +56,15 @@ const Search = () => {
       const res = await fetch(`/api/listing/get?${searchQuery}`);
       const data = await res.json();
      
-      setListtings(data);
+      if (Array.isArray(data)) {
+        // Data is an array, set it in the state
+        setListtings(data);
+      } else {
+        // Data is not an array, handle the error or set default value
+        console.error("Invalid data format:", data);
+        // You can set default value like an empty array
+        setListtings([]);
+      }
       setLoading(false);
     };
 
@@ -126,7 +135,7 @@ const Search = () => {
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
   };
-  //console.log(listings)
+  console.log(listings)
   //console.log(sidebardata);
   return (
     <div className="flex flex-col md:flex-row">
@@ -230,10 +239,25 @@ const Search = () => {
           </button>
         </form>
       </div>
-      <div className="">
+      <div className=" flex-1">
         <h1 className="text-3xl font-semibold  border-b p-3 text-slate-700 mt-5">
           Listing Results:
         </h1>
+
+        <div className="p-4 flex flex-wrap gap-4">
+          {!loading && listings.length===0 &&(
+            <p className="text-slate-700 text-xl ">No listings found</p>
+          )}
+
+          {loading&&(
+            <p className="text-slate-700 text-xl text-center w-4">Loading</p>
+          )}
+
+          {!loading &&listings && listings.map((listing)=> <ListingCard key={listing._id} listing={listing}/>
+          
+
+          )}
+        </div>
       </div>
     </div>
   );

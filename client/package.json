@@ -54,6 +54,7 @@
   "proxy": "http://localhost:3000/",
   "devDependencies": {
     "@craco/craco": "^7.1.0",
+    "@tailwindcss/line-clamp": "^0.4.4",
     "tailwindcss": "^3.4.1"
   }
 }
