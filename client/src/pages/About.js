@@ -1,10 +1,10 @@
-import { current } from "@reduxjs/toolkit";
+
 import React, { useState } from "react";
 import {  FaHome } from "react-icons/fa";
 import { useSelector } from "react-redux";
 
 const About = () => {
-  const { currentUser, loading, error } = useSelector((state) => state.user);
+  const { currentUser } = useSelector((state) => state.user);
   const [listings,setListings] = useState([]);
   const handleTotalListings =async()=>{
     const res = await fetch(`/api/user/listings/${currentUser._id}`);
