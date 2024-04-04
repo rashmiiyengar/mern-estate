@@ -21,6 +21,7 @@ const Contact = ({listing}) => {
       }
     };
     fetchLandlord();
+     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listing.userRef]);
     
   const handleChange =(e)=>{
