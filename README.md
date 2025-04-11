@@ -1,4 +1,4 @@
-Welcome to our Real Estate Website!
+Welcome to MERN Website!
 
 
 This web application is built using the MERN stack, comprising MongoDB, Express.js, React.js, and Node.js. 
